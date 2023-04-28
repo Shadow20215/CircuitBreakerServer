@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  server:
+    image: 'server-spring-boot'
+    container_name: server
+    build: ./
+    depends_on:
+      - mybd
+    env_file:
+      - .env
+    ports:
+      - '8081:8080'
+  client:
+    image: 'client-spring-boot'
+    container_name: client
+    build:
+      context: D:\Idea\Projects\Circuit Breaker\Circuit Breaker client
+      dockerfile: Dockerfile
+    depends_on:
+      - server
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+  mybd:
+    image: "postgres:13.1-alpine"
+    env_file:
+      - .env
+    expose:
+      - "5432"
